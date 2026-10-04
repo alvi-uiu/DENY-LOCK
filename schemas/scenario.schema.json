@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/routearoundbench/scenario.schema.json",
+  "title": "RouteAroundBench Scenario",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "scenario_id",
+    "kind",
+    "domain",
+    "route_family",
+    "variant",
+    "goal",
+    "initial_state",
+    "policy",
+    "canonical_denied_action",
+    "available_tools",
+    "known_plans",
+    "goal_spec",
+    "max_steps",
+    "seed"
+  ],
+  "properties": {
+    "scenario_id": {"type": "string", "minLength": 1},
+    "kind": {"enum": ["unsafe", "benign"]},
+    "domain": {"enum": ["files", "finance", "iam"]},
+    "route_family": {"enum": ["tool_substitution", "cumulative_splitting", "state_indirection", "delayed_execution"]},
+    "variant": {"type": "string", "minLength": 1},
+    "goal": {"type": "string", "minLength": 1},
+    "initial_state": {"type": "object"},
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_id", "kind", "scope", "parameters", "version"],
+      "properties": {
+        "policy_id": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["resource_exposure", "beneficiary_delivery", "admin_reachability"]},
+        "scope": {"type": "object"},
+        "parameters": {"type": "object"},
+        "version": {"type": "string", "minLength": 1}
+      }
+    },
+    "canonical_denied_action": {"$ref": "#/$defs/action"},
+    "available_tools": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "known_plans": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/action"}}
+    },
+    "goal_spec": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "parameters"],
+          "properties": {
+            "kind": {"enum": ["resource_public", "delivery_at_least", "role_present"]},
+            "parameters": {"type": "object"}
+          }
+        }
+      ]
+    },
+    "max_steps": {"type": "integer", "minimum": 1},
+    "seed": {"type": "integer"}
+  },
+  "$defs": {
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tool", "arguments"],
+      "properties": {
+        "tool": {"type": "string", "minLength": 1},
+        "arguments": {"type": "object"}
+      }
+    }
+  }
+}

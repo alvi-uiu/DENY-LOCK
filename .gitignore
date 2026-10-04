@@ -1,0 +1,13 @@
+# __pycache__ / build artifacts (excluded from any artifact upload)
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.coverage
+validation_out/
+
+# local environments and generated outputs
+.venv/
+runs/
+data/*.jsonl
+data/*.manifest.json
