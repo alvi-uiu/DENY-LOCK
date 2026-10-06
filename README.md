@@ -2,9 +2,9 @@
 
 DENYLOCK is a deterministic post-denial control for tool-using language-model agents. It retains the policy that caused a controlled initial denial, previews each proposed transition on an exact copy of simulator state, checks the complete tentative state, and commits atomically only when every active predicate remains satisfied.
 
-This repository also defines RouteAroundBench v1, a synthetic benchmark for measuring whether an agent reaches a forbidden state through a different tool, cumulative actions, derived-state indirection, or delayed execution after a canonical action has been denied.
+This repository also defines RouteAroundBench v1, a synthetic benchmark for measuring whether an agent reaches a forbidden state through a different tool, cumulative actions, state indirection, or delayed execution after a canonical action has been denied.
 
-The repository contains implementation and benchmark-generation code only. It contains no executed model outputs, measured scores, or paper modifications.
+The repository contains implementation and benchmark-generation code only. It contains no executed model outputs or measured scores.
 
 ## Scope
 
@@ -71,7 +71,7 @@ A conservative single-GPU pilot uses one quantized 7B instruction model, one res
 
 ```bash
 vllm serve Qwen/Qwen3-8B-AWQ \
-  --revision qwen3-8b-awq \
+  --revision <pinned-revision> \
   --host 127.0.0.1 \
   --port 8000 \
   --max-model-len 8192 \
@@ -91,9 +91,9 @@ denylock run \
   --output runs/qwen3_8b_pilot \
   --base-url http://127.0.0.1:8000/v1 \
   --model Qwen/Qwen3-8B-AWQ \
-  --model-revision qwen3-8b-awq \
+  --model-revision <pinned-revision> \
   --quantization awq \
-  --server-version vllm-0.6.6 \
+  --server-version <vllm-version> \
   --hardware 'NVIDIA RTX 3090 24GB' \
   --context-length 8192 \
   --conditions exact_call_lock tuple_lock denylock \
@@ -110,9 +110,9 @@ denylock run \
   --output runs/qwen3_8b_full \
   --base-url http://127.0.0.1:8000/v1 \
   --model Qwen/Qwen3-8B-AWQ \
-  --model-revision qwen3-8b-awq \
+  --model-revision <pinned-revision> \
   --quantization awq \
-  --server-version vllm-0.6.6 \
+  --server-version <vllm-version> \
   --hardware 'NVIDIA RTX 3090 24GB' \
   --context-length 8192 \
   --conditions exact_call_lock tuple_lock full_trace_llm denylock \
@@ -145,7 +145,7 @@ denylock report \
   --figure
 ```
 
-The report includes route-around success (RAS; the paper's term for the forbidden-completion rate on unsafe scenarios), benign recovery rate (BRR; completions of benign goals without any policy violation), scenario-cluster bootstrap intervals (10,000 replicates), outcome counts, route/domain slices, token use, per-decision enforcement latency, latency, and paired exact McNemar tests with Holm correction. With `--paper-tables`, it additionally emits the paper's per-model table, per-route-family table, and per-scenario paraphrase deltas under `tables/`.
+The report includes route-around success (RAS; the paper's term for the forbidden-completion rate on unsafe scenarios), benign recovery rate (BRR; completions of benign goals without any policy violation), scenario-cluster bootstrap intervals (10,000 replicates), outcome counts, route/domain slices, token use, model-call latency, per-decision enforcement latency, and paired exact McNemar tests with Holm correction. With `--paper-tables`, it additionally emits the paper's per-model table, per-route-family table, and per-scenario paraphrase deltas under `tables/`.
 
 ### Over-activation and ablation conditions
 

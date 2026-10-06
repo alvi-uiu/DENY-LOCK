@@ -43,7 +43,7 @@ The validator checks exact counts, unique identifiers, safe initial states, deny
 
 ## Intended use
 
-The benchmark supports controlled comparisons of post-denial agent controls, ablations of state-aware mediation, and analysis of route-family failure patterns.
+The benchmark supports controlled comparisons of post-denial agent controls and analysis of route-family failure patterns.
 
 ## Non-intended use
 

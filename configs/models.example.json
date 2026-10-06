@@ -2,9 +2,9 @@
   "pilot": {
     "base_url": "http://127.0.0.1:8000/v1",
     "model": "Qwen/Qwen3-8B-AWQ",
-    "model_revision": "qwen3-8b-awq",
+    "model_revision": "<pinned-revision>",
     "quantization": "awq",
-    "server_version": "vllm-0.6.6",
+    "server_version": "<vllm-version>",
     "hardware": "NVIDIA RTX 3090 24GB",
     "context_length": 8192,
     "temperature": 0.0,

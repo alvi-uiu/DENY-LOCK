@@ -23,8 +23,9 @@ class ScriptedClient:
     """Deterministic stand-in for an OpenAI-compatible model endpoint.
 
     Agent role: replays the scenario's witness plans in order (plan 0, then
-    plan 1), then gives up -- the canonical route-around behavior. Guard role:
-    always allows, exercising the comparator path that lets routes through.
+    plan 1), then reports the goal as impossible -- the canonical route-around
+    behavior. Guard role: always allows, exercising the comparator path that
+    permits route-around.
     """
 
     def __init__(self, benchmark: RouteAroundBench, role: str) -> None:
